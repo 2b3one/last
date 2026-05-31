@@ -1,33 +1,34 @@
-import chromium from "chrome-aws-lambda";
-import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
+import puppeteer from "puppeteer";
 
 export default async function handler(req, res) {
   try {
-    const executablePath = await chromium.executablePath;
-
+    // Uruchamiamy Chromium kompatybilne z Vercel
     const browser = await puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
-      executablePath,
+      executablePath: await chromium.executablePath(),
       headless: chromium.headless
     });
 
     const page = await browser.newPage();
 
+    // Udajemy normalnego usera
     await page.setUserAgent(
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36"
     );
 
-    // 1. Wejście na stronę Żabki (przejście challenge)
+    // 1. Wejście na stronę Żabki (przejście challenge Cloudflare)
     await page.goto("https://www.zabka.pl/produkty", {
       waitUntil: "networkidle2",
       timeout: 60000
     });
 
+    // 2. Pobranie cookies po challenge
     const cookies = await page.cookies();
 
-    // 2. Pobranie JSON z API Żabki z cookies
-    const response = await page.evaluate(async (cookies) => {
+    // 3. Pobranie JSON z API Żabki z cookies
+    const data = await page.evaluate(async (cookies) => {
       const cookieHeader = cookies.map(c => `${c.name}=${c.value}`).join("; ");
 
       const r = await fetch("https://www.zabka.pl/api/products/categories", {
@@ -45,7 +46,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       ok: true,
-      categories: response
+      categories: data
     });
 
   } catch (e) {
