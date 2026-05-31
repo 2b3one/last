@@ -1,23 +1,21 @@
-import puppeteer from "puppeteer";
+import chromium from "chrome-aws-lambda";
+import puppeteer from "puppeteer-core";
 
 export default async function handler(req, res) {
   try {
+    const executablePath = await chromium.executablePath;
+
     const browser = await puppeteer.launch({
-      headless: "new",
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-gpu",
-        "--disable-software-rasterizer"
-      ]
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath,
+      headless: chromium.headless
     });
 
     const page = await browser.newPage();
 
-    // Udajemy normalnego usera
     await page.setUserAgent(
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36"
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36"
     );
 
     // 1. Wejście na stronę Żabki (przejście challenge)
@@ -26,10 +24,9 @@ export default async function handler(req, res) {
       timeout: 60000
     });
 
-    // 2. Pobranie cookies po challenge
     const cookies = await page.cookies();
 
-    // 3. Pobranie JSON z API Żabki z cookies
+    // 2. Pobranie JSON z API Żabki z cookies
     const response = await page.evaluate(async (cookies) => {
       const cookieHeader = cookies.map(c => `${c.name}=${c.value}`).join("; ");
 
