@@ -1,0 +1,11 @@
+{
+  "name": "zabka3",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "scripts": {
+    "scrape": "node scraper/run.js"
+  }
+}
