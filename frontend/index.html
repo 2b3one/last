@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>ŻABKA³ – Osiedlowy Kalkulator Punktów</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Animowane tło blokowiska -->
+  <div class="city-bg"></div>
+
+  <header>
+    <h1 class="logo">ŻABKA<span>3</span></h1>
+
+    <!-- Graffiti tag -->
+    <div class="graffiti-tag">ŻABKA3</div>
+
+    <!-- Neon 24H -->
+    <div class="neon">24H</div>
+
+    <!-- Pixel‑art ekipa -->
+    <div class="pixel-crew">
+      <div class="pixel-guy"></div>
+      <div class="pixel-girl"></div>
+    </div>
+  </header>
+
+  <!-- Dripping paint pod headerem -->
+  <div class="drip-bar">
+    <div class="drip d1"></div>
+    <div class="drip d2"></div>
+    <div class="drip d3"></div>
+  </div>
+
+  <main>
+    <!-- Panel kategorii -->
+    <section class="panel">
+      <h2>Kategorie</h2>
+      <div id="categories"></div>
+    </section>
+
+    <!-- Panel budżetu -->
+    <section class="panel">
+      <h2>Budżet</h2>
+      <div class="budgets">
+        <button class="budget-btn" data-value="10">10 zł</button>
+        <button class="budget-btn" data-value="20">20 zł</button>
+        <button class="budget-btn" data-value="30">30 zł</button>
+        <button class="budget-btn" data-value="40">40 zł</button>
+        <button class="budget-btn" data-value="50">50 zł</button>
+        <button class="budget-btn" data-value="100">100 zł</button>
+      </div>
+    </section>
+
+    <!-- Panel wyników -->
+    <section class="panel">
+      <h2>Wynik</h2>
+      <div id="results" class="results"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
