@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Rubik:wght@300;400;700&display=swap');
+
+/* GLOBAL */
+
+body {
+  background: #050505;
+  color: #eee;
+  font-family: 'Rubik', sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* ANIMOWANE TŁO BLOKOWISKA */
+
+.city-bg {
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(to top, #020202 0%, #050505 40%, transparent 60%),
+    repeating-linear-gradient(
+      to right,
+      #111 0px,
+      #111 40px,
+      #151515 40px,
+      #151515 80px
+    );
+  opacity: 0.6;
+  z-index: -2;
+  animation: cityScroll 20s linear infinite;
+}
+
+@keyframes cityScroll {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 0, -200px 0; }
+}
+
+/* HEADER */
+
+header {
+  text-align: center;
+  padding: 40px 0 20px;
+  background: linear-gradient(180deg, #0f0, #090);
+  box-shadow: 0 0 25px #0f0;
+}
+
+.logo {
+  font-family: 'Anton', sans-serif;
+  font-size: 64px;
+  letter-spacing: 2px;
+  color: #000;
+  text-shadow: 3px 3px 0 #0f0;
+}
+
+.logo span {
+  color: #fff;
+  text-shadow: 3px 3px 0 #000;
+}
+
+/* GRAFFITI TAG */
+
+.graffiti-tag {
+  font-family: 'Anton', sans-serif;
+  font-size: 90px;
+  color: #0f0;
+  text-shadow:
+    -3px -3px 0 #000,
+    3px -3px 0 #000,
+    -3px 3px 0 #000,
+    3px 3px 0 #000,
+    0 0 25px #0f0,
+    0 0 45px #0f0;
+  transform: rotate(-3deg);
+  animation: sprayShake 2.5s infinite ease-in-out;
+  margin-bottom: 20px;
+}
+
+@keyframes sprayShake {
+  0% { transform: rotate(-3deg) translate(0,0); }
+  20% { transform: rotate(-4deg) translate(-2px,2px); }
+  40% { transform: rotate(-2deg) translate(2px,-2px); }
+  60% { transform: rotate(-3deg) translate(-1px,1px); }
+  80% { transform: rotate(-5deg) translate(1px,-1px); }
+  100% { transform: rotate(-3deg) translate(0,0); }
+}
+
+/* NEON */
+
+.neon {
+  font-family: 'Anton', sans-serif;
+  font-size: 48px;
+  color: #0f0;
+  text-shadow:
+    0 0 10px #0f0,
+    0 0 20px #0f0,
+    0 0 40px #0f0,
+    0 0 80px #0f0;
+  animation: neonFlicker 3s infinite;
+  margin-top: -10px;
+}
+
+@keyframes neonFlicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.3; }
+}
+
+/* PIXEL ART POSTACIE */
+
+.pixel-crew {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.pixel-guy,
+.pixel-girl {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+  position: relative;
+  transform: scale(3);
+}
+
+/* ziomek */
+.pixel-guy {
+  box-shadow:
+    4px 0 #0f0,
+    4px 4px #0f0,
+    4px 8px #0f0,
+    0 4px #0f0,
+    8px 4px #0f0,
+    0 8px #0f0,
+    8px 8px #0f0,
+    4px 12px #0f0;
+  animation: crewBounce 1.4s infinite ease-in-out;
+}
+
+/* ziomka */
+.pixel-girl {
+  box-shadow:
+    4px 0 #f0f,
+    4px 4px #f0f,
+    4px 8px #f0f,
+    0 4px #f0f,
+    8px 4px #f0f,
+    0 8px #f0f,
+    8px 8px #f0f,
+    4px 12px #f0f;
+  animation: crewBounce 1.4s infinite ease-in-out 0.2s;
+}
+
+@keyframes crewBounce {
+  0%, 100% { transform: translateY(0) scale(3); }
+  50% { transform: translateY(-3px) scale(3); }
+}
+
+/* DRIPPING PAINT */
+
+.drip-bar {
+  position: relative;
+  height: 20px;
+  background: #0f0;
+  box-shadow: 0 10px 25px rgba(0,255,0,0.4);
+}
+
+.drip {
+  position: absolute;
+  top: 20px;
+  width: 10px;
+  background: #0f0;
+  border-radius: 0 0 10px 10px;
+  animation: dripAnim 3s infinite ease-in-out;
+}
+
+.d1 { left: 20%; height: 25px; animation-delay: 0s; }
+.d2 { left: 50%; height: 35px; animation-delay: 0.4s; }
+.d3 { left: 75%; height: 20px; animation-delay: 0.8s; }
+
+@keyframes dripAnim {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(1.4); opacity: 0.7; }
+}
+
+/* PANELS */
+
+.panel {
+  margin: 30px auto;
+  width: 90%;
+  max-width: 800px;
+  background: #1a1a1a;
+  padding: 20px;
+  border-left: 6px solid #0f0;
+  border-radius: 6px;
+  box-shadow: 0 0 15px #000;
+}
+
+h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: #0f0;
+  text-shadow: 2px 2px 0 #000;
+}
+
+/* BUDŻETY */
+
+.budgets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.budget-btn {
+  flex: 1;
+  padding: 12px;
+  background: #0f0;
+  border: none;
+  color: #000;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.budget-btn:hover {
+  background: #b6ff00;
+  transform: scale(1.05);
+}
+
+/* KATEGORIE */
+
+.category-item {
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+/* WYNIKI */
+
+.results {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.product {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #222;
+  border-left: 4px solid #0f0;
+  border-radius: 4px;
+}
