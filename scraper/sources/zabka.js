@@ -1,42 +1,48 @@
 import fetch from "node-fetch";
+import { randomUA } from "../userAgents.js";
 
-const headers = {
-  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-  "Accept": "application/json, text/plain, */*",
-  "Accept-Language": "pl-PL,pl;q=0.9",
-  "Referer": "https://www.zabka.pl/",
-  "Origin": "https://www.zabka.pl"
-};
+function sleep(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
 
 async function safeJson(url) {
+  const headers = {
+    "User-Agent": randomUA(),
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "pl-PL,pl;q=0.9",
+    "Referer": "https://www.zabka.pl/",
+    "Origin": "https://www.zabka.pl",
+    "Cache-Control": "no-cache"
+  };
+
   const res = await fetch(url, { headers });
   const text = await res.text();
 
-  // jeśli zamiast JSON dostajemy HTML (<!DOCTYPE / <html ...)
   if (text.trim().startsWith("<")) {
-    console.error("❌ Żabka zwróciła HTML zamiast JSON:", url);
+    console.error("❌ HTML zamiast JSON:", url);
     return null;
   }
 
   try {
     return JSON.parse(text);
-  } catch (e) {
-    console.error("❌ Błąd JSON.parse dla:", url, e.message);
+  } catch {
+    console.error("❌ JSON parse error:", url);
     return null;
   }
 }
 
 export async function scrapeZabka() {
-  const categoriesData = await safeJson(
+  console.log("Scraping Żabka (rotacja UA + opóźnienia)...");
+
+  const categories = await safeJson(
     "https://www.zabka.pl/api/products/categories"
   );
 
-  if (!categoriesData || !Array.isArray(categoriesData)) {
-    console.error("❌ Brak poprawnych kategorii z Żabki");
+  if (!categories) {
+    console.error("❌ Brak kategorii — Żabka zablokowała request");
     return [];
   }
 
-  const categories = categoriesData;
   let products = [];
 
   for (const cat of categories) {
@@ -48,7 +54,8 @@ export async function scrapeZabka() {
       )}&page=${page}`;
 
       const data = await safeJson(url);
-      if (!data || !data.items || !data.items.length) break;
+
+      if (!data?.items?.length) break;
 
       products.push(
         ...data.items.map(p => ({
@@ -63,6 +70,9 @@ export async function scrapeZabka() {
       );
 
       page++;
+
+      // opóźnienie 1–3 sekundy
+      await sleep(1000 + Math.random() * 2000);
     }
   }
 
